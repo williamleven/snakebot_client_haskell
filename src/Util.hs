@@ -136,7 +136,7 @@ getSnakeById Map{snakeInfos, ..} id' = headMaybe $ filter byId snakeInfos
 
 getSnakeTileAt' :: SnakeInfo -> [Position] -> Position -> Maybe Tile
 getSnakeTileAt' _ [] _ = Nothing
-getSnakeTileAt' si (p':[]) p | p == p'   = Just (SnakeTail si)
+getSnakeTileAt' si [p'] p    | p == p'   = Just (SnakeTail si)
 getSnakeTileAt' si (p':ps) p | p == p'   = Just (SnakeBody si)
                              | otherwise = getSnakeTileAt' si ps p
 
@@ -153,16 +153,16 @@ getTileAt m c | not $ insideMapBounds m c = Wall
               | isObstacle = Obstacle
               | isFood     = Food
               | otherwise  = Empty
-    where isObstacle = elem p obstaclePositions
-          isFood = elem p foodPositions
-          snakeTile = mapMaybe (\si -> getSnakeTileAt si p) snakeInfos
+    where isObstacle = p `elem` obstaclePositions
+          isFood = p `elem` foodPositions
+          snakeTile = mapMaybe (`getSnakeTileAt` p) snakeInfos
           p = toPosition c width
           Map{snakeInfos, foodPositions, obstaclePositions, width, ..} = m
 
 -- | Get the direction a specific snake:s head is facing.
 snakeFacing :: SnakeInfo -> Natural -> Direction
 snakeFacing SnakeInfo{positions=[]}        _ = RIGHT
-snakeFacing SnakeInfo{positions=(p:[])}    _ = RIGHT
+snakeFacing SnakeInfo{positions=[p]}       _ = RIGHT
 snakeFacing SnakeInfo{positions=(p1:p2:_)} w = dirFromDelta (subCoords c1 c2)
     where c1 = toCoordinate p1 w
           c2 = toCoordinate p2 w
@@ -177,8 +177,8 @@ tileSafe _     = False
 -- | This consideres the tails of other snakes as safe tiles.
 tileSafeSnake :: Tile -> SnakeInfo -> Bool
 tileSafeSnake (SnakeTail otherSnake) ourSnake =
-    and [otherId /= ourId, not tailProtected]
-    where tailProtected = (tailProtectedForGameTicks otherSnake) > 0
+    otherId /= ourId && not tailProtected
+    where tailProtected = tailProtectedForGameTicks otherSnake > 0
           otherId = id otherSnake
           ourId = id ourSnake
 tileSafeSnake t _ = tileSafe t

@@ -4,7 +4,7 @@ import TestUtil
 import TestMessages
 
 main :: IO ()
-main = hspec $ do
+main = hspec $
     describe "SnakeBot tests" $ do
         utilTest
         messagesTest

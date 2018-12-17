@@ -9,8 +9,25 @@ data State = State
   , whatever        :: Maybe String
 }
 
+
+
 update :: Map -> State -> (Direction, State)
-update _ state = (UP, state)
+update m state | tileSafe front = (f, state)
+               | tileSafe left = (fl, state)
+               | otherwise = (fr, state)
+    where s = fromJust $ getSnakeByName m (iName myBot)
+          front = getTileAt m (addCoords hc fd)
+          left = getTileAt m (addCoords hc ld)
+          right = getTileAt m (addCoords hc rd)
+          fd = dirToDelta f
+          ld = dirToDelta fl
+          rd = dirToDelta fr
+          fl = turnDir f (-1)
+          fr = turnDir f   1
+          f = snakeFacing s mw
+          mw = width m
+          hc = toCoordinate hp mw
+          SnakeInfo{positions=(hp:_)} = s
 
 myBot = SnakeBot
   { iHost  = "snake.cygni.se"

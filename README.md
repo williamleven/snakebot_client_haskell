@@ -1,20 +1,24 @@
 # Cygni SnakeBot Client
+<<<<<<< Updated upstream
 ![Build status](https://travis-ci.org/Gurgy/snakebot_client_haskell.svg?branch=master)
 
 A Haskell client for cygnis copettative snakebot game. This client allows the user to write their own implementetation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).  
+=======
+A Haskell client for cygnis competitive snakebot game. This client allows the user to write their own implementation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).  
+>>>>>>> Stashed changes
 
 ## Usage 
 This project uses [stack](https://docs.haskellstack.org/en/stable/README/). 
 
-`stack run` will install all depencencies and run the client.
+`stack run` will install all dependencies and run the client.
 
-You provide your implmentation of the bot in `app/Main.hs` by implementaing the update function.
+You provide your implementation of the bot in `app/Main.hs` by implementing the update function.
 ```haskell
 update :: Map -> State -> (Direction, State)
 update _ state = (UP, state)
 ```
 
-To change the name of your bot (REQUIRED) and other settings you can do this in the myBot definition.
+To change the name of your bot (REQUIRED) and other settings you edit the myBot definition.
 ```haskell
 myBot = SnakeBot
   { iHost  = "snake.cygni.se"
@@ -48,7 +52,7 @@ myBot = SnakeBot
   }
 ```
 
-There are multiple util methus in `src/Util.hs` that can help you analyze the map.
+There are multiple util methods in `src/Util.hs` that can help you analyze the map.
 
 ## Development
 Please read through the usage section to get a better understanding of how the user sees the application.
@@ -57,11 +61,11 @@ Use `stack ghci` to run gchi with stack.
 
 Use `stack test` to run all tests.
 
-* `Game.hs` takes care about client setup and the websocket loop for readinga nd sending messages.
-* `Handler.hs` takes care about calculating apropiate action to each incomming message in the game loop.
-* `Types.hs` constains types that the user use in the update function.
-* `Util.hs` helper methods to be used by the user, those should have tests.
-* `Messages.hs` Message datatypes and json encoding/decoding 
+* `Game.hs` takes care about client setup and the websocket loop for reading and sending messages.
+* `Handler.hs` takes care about calculating appropriate action to each incoming message in the game loop.
+* `Types.hs` contains types that the user use in the update function.
+* `Util.hs` helper methods to be used by the user, these should have tests.
+* `Messages.hs` Message datatypes and json encoding/decoding.
 
 ### Json encoding / decoding
-The aeson libary is used for json encoding / decoding. See the `src/Mesaages.hs` file for more information on how the custom type property is used.
+The aeson libary is used for json encoding / decoding. See the `src/Messages.hs` file for more information on how the custom type property is used.

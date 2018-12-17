@@ -81,7 +81,8 @@ readMessages uf state wsc = do
         readMessages uf state wsc
     else do
         -- Calculate actions based on the incomming mesage
-        let (newState, mLog, mMessage) = handleMessage uf state $ fromJust decoded
+        let (newState, mLog, mMessage) =
+                handleMessage uf state $ fromJust decoded
         printM mLog
         sendM mMessage
         readMessages uf newState wsc

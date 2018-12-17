@@ -24,7 +24,7 @@ handleMessage uf state (
         (dir, newState) = uf map state
         message = RegisterMove
             $ RegisterMoveData dir gameTick gameId receivingPlayerId
-        log = printf "You did make a %s turn.\n" (show dir)
+        log = printf "Your snake went %s.\n" (show dir)
 
 -- | Game Started
 handleMessage _ state (

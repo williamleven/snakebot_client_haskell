@@ -111,8 +111,10 @@ utilTest = context "UtilTest" $ do
     it "Test isWithinSquare" $
         quickCheck propSquareWithinItself
     it "Test getSnakeBy*" $ do
-        getSnakeById exMap "snake_1" `shouldBe` getSnakeByName exMap "Snake #1"
-        getSnakeById exMap "snake_2" `shouldBe` getSnakeByName exMap "Snake #2"
+        getSnakeById exMap "snake_1" `shouldBe`
+            getSnakeByName exMap "Snake #1"
+        getSnakeById exMap "snake_2" `shouldBe`
+            getSnakeByName exMap "Snake #2"
     it "Test getTileAt" $ do
         -- Test get snake tiles
         getTileAt exMap (3, 4) `shouldBe`

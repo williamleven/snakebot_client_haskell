@@ -122,14 +122,16 @@ insideMapBounds Map{width, height, ..} (x, y)
 -- | NOTE: Two snakes might share the same name,
 -- | in this case either one may be returned.
 getSnakeByName :: Map -> String -> Maybe SnakeInfo
-getSnakeByName Map{snakeInfos, ..} name' = headMaybe $ filter byName snakeInfos
+getSnakeByName Map{snakeInfos, ..} name' =
+    headMaybe $ filter byName snakeInfos
     where  headMaybe [] = Nothing
            headMaybe l = Just $ head l
            byName SnakeInfo{name, ..} = name == name'
 
 -- | Extract a snake from a map by its unique ID.
 getSnakeById :: Map -> String -> Maybe SnakeInfo
-getSnakeById Map{snakeInfos, ..} id' = headMaybe $ filter byId snakeInfos
+getSnakeById Map{snakeInfos, ..} id' =
+    headMaybe $ filter byId snakeInfos
     where  headMaybe [] = Nothing
            headMaybe l = Just $ head l
            byId SnakeInfo{id, ..} = id == id'

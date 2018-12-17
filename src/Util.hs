@@ -27,6 +27,12 @@ import Numeric.Natural
 import Data.Maybe
 import Types
 
+{-
+    This file contains helper functions that
+    you can use when creating your snakebot.
+-}
+
+
 -- | Convert a tuple of integers to a tuple of naturals
 natCoord :: Coordinate -> (Natural, Natural)
 natCoord (x, y) = (fromIntegral x, fromIntegral y)

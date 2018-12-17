@@ -139,9 +139,13 @@ utilTest = context "UtilTest" $ do
         getTileAt exMap ( -1, -1) `shouldBe` Wall
         getTileAt exMap (  5, 20) `shouldBe` Wall
         getTileAt exMap (999,  0) `shouldBe` Wall
-    it "Test tileSafe snake tail" $ do
-        tileSafe (getTileAt exMap (19, 3)) `shouldBe` False
-        tileSafe (getTileAt exMap ( 3, 4)) `shouldBe` True
+    it "Test tileSafeSnake on tail" $ do
+        let snake1 = fromJust $ getSnakeById exMap "snake_1"
+        let snake2 = fromJust $ getSnakeById exMap "snake_2"
+        tileSafeSnake (getTileAt exMap (19, 3)) snake1 `shouldBe` False
+        tileSafeSnake (getTileAt exMap ( 3, 4)) snake1 `shouldBe` False
+        tileSafeSnake (getTileAt exMap (19, 3)) snake2 `shouldBe` False
+        tileSafeSnake (getTileAt exMap ( 3, 4)) snake2 `shouldBe` True
     it "Test snakeFacing" $ do
         snakeFacing (fromJust $ getSnakeById exMap "snake_1") (width exMap)
             `shouldBe` LEFT

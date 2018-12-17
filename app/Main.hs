@@ -12,8 +12,8 @@ data State = State
 
 
 update :: Map -> State -> (Direction, State)
-update m state | tileSafe front = (f, state)
-               | tileSafe left = (fl, state)
+update m state | tileSafeSnake front s = (f, state)
+               | tileSafeSnake left s  = (fl, state)
                | otherwise = (fr, state)
     where s = fromJust $ getSnakeByName m (iName myBot)
           front = getTileAt m (addCoords hc fd)
@@ -30,12 +30,12 @@ update m state | tileSafe front = (f, state)
           SnakeInfo{positions=(hp:_)} = s
 
 myBot = SnakeBot
-  { iHost  = "snake.cygni.se"
-  , iPort  = 80
-  , iPath  = "/training"
-  , iName = "First haskell bot"
-  , iUpdate = update
-  , iState = State
+  { iHost             = "snake.cygni.se"
+  , iPort             = 80
+  , iPath             = "/training"
+  , iName             = "First haskell bot"
+  , iUpdate           = update
+  , iState            = State
     { whateverYouWant = "initial state"
     , whatever        = Nothing
     }

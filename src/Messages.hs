@@ -40,7 +40,7 @@ data InboundMessage = GameStarting GameStartingData
                     | PlayerRegistered PlayerRegisteredData
                     | SnakeDead SnakeDeadData
                     | TournamentEnded TournamentEndedData
-    deriving (Show)
+    deriving (Show, Eq)
 
 -- | Data bessages the client can send to the server
 data OutboundMessage = HeartBeatRequest HeartBeatData
@@ -48,7 +48,7 @@ data OutboundMessage = HeartBeatRequest HeartBeatData
                      | RegisterPlayer RegisterPlayerData
                      | RegisterMove RegisterMoveData
                      | StartGame
-    deriving Show
+    deriving (Show, Eq)
 
 -- | Implementation for json decoding of all inbound messages
 -- | The decoding is done by checking the type attribute of the object and
@@ -142,13 +142,13 @@ instance ToJSON OutboundMessage where
 -- | Representation of player registered event data
 newtype RegisterPlayerData = RegisterPlayerData {
     playerName :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON RegisterPlayerData
 
 -- | Representation of the heartbeat event data
 newtype HeartBeatData = HeartBeatData {
     receivingPlayerId :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON HeartBeatData
 instance ToJSON HeartBeatData
 
@@ -159,7 +159,7 @@ data ClientInfoData = ClientInfoData {
     operatingSystem :: String,
     operatingSystemVersion :: String,
     clientVersion :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON ClientInfoData
 
 -- | Representation of the player move event data
@@ -168,7 +168,7 @@ data RegisterMoveData = RegisterMoveData {
     gameTick :: Natural,
     gameId :: String,
     receivingPlayerId :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON RegisterMoveData
 
 -- | Representation of the game started event data
@@ -178,7 +178,7 @@ data GameStartingData = GameStartingData {
     noofPlayers :: Natural,
     width :: Natural,
     height :: Natural
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON GameStartingData
 instance ToJSON GameStartingData
 
@@ -189,7 +189,7 @@ data GameEndedData = GameEndedData {
     playerWinnerId :: String,
     gameTick :: Natural,
     map :: Map
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON GameEndedData
 instance ToJSON GameEndedData
 
@@ -200,7 +200,7 @@ data GameResultMsgDataRow = GameResultMsgDataRow {
     alive :: Bool,
     playerId :: String,
     playerName :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON GameResultMsgDataRow
 instance ToJSON GameResultMsgDataRow
 
@@ -210,7 +210,7 @@ data GameResultMsgData = GameResultMsgData {
     receivingPlayerId :: String,
     timestamp :: Natural,
     playerRanks :: [GameResultMsgDataRow]
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON GameResultMsgData
 instance ToJSON GameResultMsgData
 
@@ -219,14 +219,14 @@ data GameLinkData = GameLinkData {
     gameId :: String,
     receivingPlayerId :: String,
     url :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON GameLinkData
 instance ToJSON GameLinkData
 
 -- | Representation of the invalid playername event data
 newtype InvalidPlayerNameData = InvalidPlayerNameData {
     reasonCode :: Natural
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON InvalidPlayerNameData
 instance ToJSON InvalidPlayerNameData
 
@@ -236,7 +236,7 @@ data MapUpdateData = MapUpdateData {
     gameTick :: Natural,
     receivingPlayerId :: String,
     map :: Map
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON MapUpdateData
 instance ToJSON MapUpdateData
 
@@ -247,7 +247,7 @@ data PlayerRegisteredData = PlayerRegisteredData {
     gameMode :: String,
     receivingPlayerId :: String,
     gameSettings :: GameSettings
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON PlayerRegisteredData
 instance ToJSON PlayerRegisteredData
 
@@ -259,7 +259,7 @@ data SnakeDeadData = SnakeDeadData {
     gameId :: String,
     gameTick :: Natural,
     deathReason :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON SnakeDeadData
 instance ToJSON SnakeDeadData
 
@@ -271,7 +271,7 @@ data TournamentEndedData = TournamentEndedData {
     tournamentId :: String,
     tournamentName :: String,
     receivingPlayerId :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance FromJSON TournamentEndedData
 instance ToJSON TournamentEndedData
 

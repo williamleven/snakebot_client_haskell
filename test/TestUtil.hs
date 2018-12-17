@@ -12,13 +12,13 @@ import Util
 instance Arbitrary Natural where
     arbitrary = suchThatMap genInt (Just . intToNatural)
         where genInt = arbitrary :: Gen Integer
-              intToNatural i = (fromInteger (abs i)) :: Natural
+              intToNatural i = fromInteger (abs i) :: Natural
 
 instance Arbitrary Direction where
     arbitrary = elements [RIGHT, DOWN, LEFT, UP]
 
 propDirTurn :: Direction -> Integer -> Bool
-propDirTurn d n = (turnDir (turnDir d n) (-n)) == d
+propDirTurn d n = turnDir (turnDir d n) (-n) == d
 
 propConvertCoordPos :: Position -> Natural -> Property
 propConvertCoordPos c mw = mw /= 0 ==> c == c'
@@ -35,8 +35,8 @@ propAddSubCoords c1 c2 = c1 == c1''
           c1'  = addCoords c1  c2
 
 propSymmetricDistances :: Integer -> Integer -> Bool
-propSymmetricDistances x y = (mD z (x, y)) == (mD z (y, x))
-                          && (eD z (x, y)) == (eD z (y, x))
+propSymmetricDistances x y = mD z (x, y) == mD z (y, x)
+                          && eD z (x, y) == eD z (y, x)
     where eD = euclidianDist
           mD = manhattanDist
           z = (0, 0)
@@ -55,7 +55,7 @@ propDirStep d x y = c'' == c
 
 propSquareWithinItself :: Coordinate -> Coordinate -> Bool
 propSquareWithinItself c1 c2 =
-    and [isWithinSquare c1 c1 c2, isWithinSquare c2 c1 c2]
+    isWithinSquare c1 c1 c2 && isWithinSquare c2 c1 c2
 
 exMap :: Map
 exMap = Map {
@@ -83,32 +83,32 @@ exMap = Map {
 
 utilTest :: Spec
 utilTest = context "UtilTest" $ do
-    it "Convert Coordinate -> Position -> Coordinate" $ do
+    it "Convert Coordinate -> Position -> Coordinate" $
         quickCheck propConvertCoordPos
-    it "Test addCoords commutativity" $ do
+    it "Test addCoords commutativity" $
         quickCheck propAddCoordsCommutative
-    it "Test addCoords inverse subCoords" $ do
+    it "Test addCoords inverse subCoords" $
         quickCheck propAddSubCoords
-    it "Distance Symmetry" $ do
+    it "Distance Symmetry" $
         quickCheck propSymmetricDistances
-    it "Manhattan Distance" $ do
-        10 `shouldBe` (manhattanDist (1,1) (4, 8))
-    it "Euclidian Distance" $ do
-        10.0 `shouldBe` (euclidianDist (1,1) (7, 9))
-    it "Add Coordinates" $ do
-        (9, 3) `shouldBe` (addCoords (3, 8) (6, -5))
-    it "Subtract Coordinates" $ do
-        (-3, 13) `shouldBe` (subCoords (3, 8) (6, -5))
-    it "Convert Direction -> Coodinate -> Direction" $ do
+    it "Manhattan Distance" $
+        10 `shouldBe` manhattanDist (1,1) (4, 8)
+    it "Euclidian Distance" $
+        10.0 `shouldBe` euclidianDist (1,1) (7, 9)
+    it "Add Coordinates" $
+        (9, 3) `shouldBe` addCoords (3, 8) (6, -5)
+    it "Subtract Coordinates" $
+        (-3, 13) `shouldBe` subCoords (3, 8) (6, -5)
+    it "Convert Direction -> Coodinate -> Direction" $
         quickCheck propDirToDelta
-    it "Step Direction" $ do
+    it "Step Direction" $
         quickCheck propDirStep
     it "Coordinate Add Direction" $ do
-        (-4, 3) `shouldBe` (coordAddDelta (-3, 3) LEFT)
-        (-2, 3) `shouldBe` (coordAddDelta (-3, 3) RIGHT)
-        (-3, 4) `shouldBe` (coordAddDelta (-3, 3) DOWN)
-        (-3, 2) `shouldBe` (coordAddDelta (-3, 3) UP)
-    it "Test isWithinSquare" $ do
+        (-4, 3) `shouldBe` coordAddDelta (-3, 3) LEFT
+        (-2, 3) `shouldBe` coordAddDelta (-3, 3) RIGHT
+        (-3, 4) `shouldBe` coordAddDelta (-3, 3) DOWN
+        (-3, 2) `shouldBe` coordAddDelta (-3, 3) UP
+    it "Test isWithinSquare" $
         quickCheck propSquareWithinItself
     it "Test getSnakeBy*" $ do
         getSnakeById exMap "snake_1" `shouldBe` getSnakeByName exMap "Snake #1"
@@ -139,14 +139,16 @@ utilTest = context "UtilTest" $ do
         getTileAt exMap ( -1, -1) `shouldBe` Wall
         getTileAt exMap (  5, 20) `shouldBe` Wall
         getTileAt exMap (999,  0) `shouldBe` Wall
-    it "Test tileSafe snake tail" $ do
-        tileSafe (getTileAt exMap (19, 3)) `shouldBe` False
-        tileSafe (getTileAt exMap ( 3, 4)) `shouldBe` True
+    it "Test tileSafeSnake on tail" $ do
+        let snake1 = fromJust $ getSnakeById exMap "snake_1"
+        let snake2 = fromJust $ getSnakeById exMap "snake_2"
+        tileSafeSnake (getTileAt exMap (19, 3)) snake1 `shouldBe` False
+        tileSafeSnake (getTileAt exMap ( 3, 4)) snake1 `shouldBe` False
+        tileSafeSnake (getTileAt exMap (19, 3)) snake2 `shouldBe` False
+        tileSafeSnake (getTileAt exMap ( 3, 4)) snake2 `shouldBe` True
     it "Test snakeFacing" $ do
         snakeFacing (fromJust $ getSnakeById exMap "snake_1") (width exMap)
             `shouldBe` LEFT
 
         snakeFacing (fromJust $ getSnakeById exMap "snake_2") (width exMap)
             `shouldBe` UP
-
-

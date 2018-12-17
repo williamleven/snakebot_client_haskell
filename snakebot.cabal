@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 73d4043d9089af2648b04fe28669f05c8fa451c9dabc171ea6f4667584552be3
+-- hash: 6330acff3a19c8c3832e45193b58215f918e67e276cd0bfbd540e923b84e50f0
 
 name:           snakebot
 version:        0.1.0.0
@@ -68,6 +68,7 @@ test-suite snakebot-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      TestMessages
       TestUtil
       Paths_snakebot
   hs-source-dirs:

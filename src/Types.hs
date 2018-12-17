@@ -45,7 +45,7 @@ data Map = Map {
     snakeInfos        :: [SnakeInfo],
     foodPositions     :: [Position],
     obstaclePositions :: [Position]
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON Map
 instance FromJSON Map
 
@@ -64,7 +64,7 @@ data GameResult = GameResult {
     name     :: String,
     points   :: Integer,
     playerId :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON GameResult
 instance FromJSON GameResult
 
@@ -86,6 +86,6 @@ data GameSettings = GameSettings {
     pointsPerCausedDeath :: Natural,
     pointsPerNibble      :: Natural,
     noofRoundsTailProtectedAfterNibble :: Natural
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON GameSettings
 instance FromJSON GameSettings

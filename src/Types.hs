@@ -14,11 +14,11 @@ type Coordinate = (Integer, Integer)
 -- | Represents the users implementation of a snakebot
 data SnakeBot a = SnakeBot
     { iHost    :: String
-    , iPort :: Int
+    , iPort    :: Int
     , iPath    :: String
-    , iName :: String
-    , iUpdate :: UpdateFunction a
-    , iState :: a
+    , iName    :: String
+    , iUpdate  :: UpdateFunction a
+    , iState   :: a
     }
 
 -- | Enum representation of user move
@@ -28,9 +28,9 @@ instance ToJSON Direction
 
 -- | Data representation of Snake
 data SnakeInfo = SnakeInfo {
-    id :: String,
-    name :: String,
-    points :: Integer,
+    id        :: String,
+    name      :: String,
+    points    :: Integer,
     positions :: [Position],
     tailProtectedForGameTicks :: Natural
 } deriving (Show, Generic, Eq)
@@ -39,13 +39,13 @@ instance FromJSON SnakeInfo
 
 -- | Data representation of map
 data Map = Map {
-    width :: Natural,
-    height :: Natural,
-    worldTick :: Natural,
-    snakeInfos :: [SnakeInfo],
-    foodPositions :: [Position],
+    width             :: Natural,
+    height            :: Natural,
+    worldTick         :: Natural,
+    snakeInfos        :: [SnakeInfo],
+    foodPositions     :: [Position],
     obstaclePositions :: [Position]
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON Map
 instance FromJSON Map
 
@@ -61,31 +61,31 @@ data Tile = Wall
 
 -- | Represnetation of a game result
 data GameResult = GameResult {
-    name :: String,
-    points :: Integer,
+    name     :: String,
+    points   :: Integer,
     playerId :: String
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON GameResult
 instance FromJSON GameResult
 
 -- | Representation of the game settings in tournaments
 data GameSettings = GameSettings {
-    maxNoofPlayers :: Natural,
-    startSnakeLength :: Natural,
-    timeInMsPerTick :: Natural,
-    obstaclesEnabled :: Bool,
-    foodEnabled :: Bool,
-    headToTailConsumes :: Bool,
-    tailConsumeGrows :: Bool,
-    addFoodLikelihood :: Natural,
+    maxNoofPlayers       :: Natural,
+    startSnakeLength     :: Natural,
+    timeInMsPerTick      :: Natural,
+    obstaclesEnabled     :: Bool,
+    foodEnabled          :: Bool,
+    headToTailConsumes   :: Bool,
+    tailConsumeGrows     :: Bool,
+    addFoodLikelihood    :: Natural,
     removeFoodLikelihood :: Natural,
-    spontaneousGrowthEveryNWorldTick :: Natural,
-    trainingGame :: Bool,
-    pointsPerLength :: Natural,
-    pointsPerFood :: Natural,
+    spontaneousGrowthEveryNWorldTick   :: Natural,
+    trainingGame         :: Bool,
+    pointsPerLength      :: Natural,
+    pointsPerFood        :: Natural,
     pointsPerCausedDeath :: Natural,
-    pointsPerNibble :: Natural,
+    pointsPerNibble      :: Natural,
     noofRoundsTailProtectedAfterNibble :: Natural
-} deriving (Show, Generic)
+} deriving (Show, Generic, Eq)
 instance ToJSON GameSettings
 instance FromJSON GameSettings

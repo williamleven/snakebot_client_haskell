@@ -13,12 +13,12 @@ update :: Map -> State -> (Direction, State)
 update _ state = (UP, state)
 
 myBot = SnakeBot
-  { iHost  = "snake.cygni.se"
-  , iPort  = 80
-  , iPath  = "/training"
-  , iName = "First haskell bot"
-  , iUpdate = update
-  , iState = State
+  { iHost             = "snake.cygni.se"
+  , iPort             = 80
+  , iPath             = "/training"
+  , iName             = "First haskell bot"
+  , iUpdate           = update
+  , iState            = State
     { whateverYouWant = "initial state"
     , whatever        = Nothing
     }

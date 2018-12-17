@@ -1,11 +1,7 @@
 # Cygni SnakeBot Client
-<<<<<<< Updated upstream
 ![Build status](https://travis-ci.org/Gurgy/snakebot_client_haskell.svg?branch=master)
 
-A Haskell client for cygnis copettative snakebot game. This client allows the user to write their own implementetation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).  
-=======
-A Haskell client for cygnis competitive snakebot game. This client allows the user to write their own implementation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).  
->>>>>>> Stashed changes
+A Haskell client for cygnis competitive snakebot game. This client allows the user to write their own implementation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).
 
 ## Usage 
 This project uses [stack](https://docs.haskellstack.org/en/stable/README/). 

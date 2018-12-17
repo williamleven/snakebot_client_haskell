@@ -27,7 +27,7 @@ startGame s = WS.runClient (iHost s) (iPort s) (iPath s) (client s)
 client :: SnakeBot a -> WS.Connection -> IO ()
 client s wsc = do
     -- Register player
-    WS.sendTextData wsc 
+    WS.sendTextData wsc
         $ encode (RegisterPlayer (RegisterPlayerData (iName s)))
 
     -- Wait for response and extract player id
@@ -36,7 +36,7 @@ client s wsc = do
     let pId = playerId registerResponse
 
     if isNothing pId then
-        error "Failed to register" 
+        error "Failed to register"
     else do
         -- Send Client info
         WS.sendTextData wsc $ encode $ ClientInfo clientInfo
@@ -49,19 +49,19 @@ client s wsc = do
     where
         -- | Extracts the player id from register response
         playerId (Just (PlayerRegistered PlayerRegisteredData{
-                receivingPlayerId, 
+                receivingPlayerId,
                 ..
-        })) = 
+        })) =
             Just receivingPlayerId
         playerId _ = Nothing
         -- | Info about bot client
-        clientInfo = ClientInfoData 
-            "haskell" 
-            (compilerName ++ "-" ++ showVersion compilerVersion) 
+        clientInfo = ClientInfoData
+            "haskell"
+            (compilerName ++ "-" ++ showVersion compilerVersion)
             os
             "???"
             "1.0.0"
-            
+
 -- | Loop used to sent heartbeat to server
 sendHeartBeat :: String -> WS.Connection -> IO ()
 sendHeartBeat id wsc = do
@@ -76,12 +76,13 @@ readMessages uf state wsc = do
     let decoded = decode msg :: Maybe InboundMessage
 
     if isNothing decoded then do
-        putStr "Failed to decode message:" 
+        putStr "Failed to decode message:"
         Lazy.putStrLn msg
         readMessages uf state wsc
     else do
         -- Calculate actions based on the incomming mesage
-        let (newState, mLog, mMessage) = handleMessage uf state $ fromJust decoded
+        let (newState, mLog, mMessage) =
+                handleMessage uf state $ fromJust decoded
         printM mLog
         sendM mMessage
         readMessages uf newState wsc

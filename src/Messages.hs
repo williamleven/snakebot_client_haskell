@@ -67,22 +67,26 @@ instance FromJSON InboundMessage where
         where valid = validType o "se.cygni.snake.api.event.GameLinkEvent"
 
     parseJSON (Object o) | valid = HeartBeatResponse <$> parseJSON (Object o)
-        where valid = validType o "se.cygni.snake.api.response.HeartBeatResponse"
+        where valid = validType o 
+                "se.cygni.snake.api.response.HeartBeatResponse"
 
     parseJSON (Object o) | valid = InvalidPlayerName <$> parseJSON (Object o)
-        where valid = validType o "se.cygni.snake.api.exception.InvalidPlayerName"
+        where valid = validType o 
+                "se.cygni.snake.api.exception.InvalidPlayerName"
 
     parseJSON (Object o) | valid = MapUpdate <$> parseJSON (Object o)
         where valid = validType o "se.cygni.snake.api.event.MapUpdateEvent"
 
     parseJSON (Object o) | valid = PlayerRegistered <$> parseJSON (Object o)
-        where valid = validType o "se.cygni.snake.api.response.PlayerRegistered"
+        where valid = validType o 
+                "se.cygni.snake.api.response.PlayerRegistered"
 
     parseJSON (Object o) | valid = SnakeDead <$> parseJSON (Object o)
         where valid = validType o "se.cygni.snake.api.event.SnakeDeadEvent"
 
     parseJSON (Object o) | valid = TournamentEnded <$> parseJSON (Object o)
-        where valid = validType o "se.cygni.snake.api.event.TournamentEndedEvent"
+        where valid = validType o 
+                "se.cygni.snake.api.event.TournamentEndedEvent"
 
     parseJSON _ = CA.empty
 

@@ -1,4 +1,6 @@
 # Cygni SnakeBot Client
+![Build status](https://travis-ci.org/Gurgy/snakebot_client_haskell.svg?branch=master)
+
 A Haskell client for cygnis copettative snakebot game. This client allows the user to write their own implementetation of a snakebot and run it on the [cygni snakebot server](https://github.com/cygni/snakebot).  
 
 ## Usage 
@@ -52,6 +54,8 @@ There are multiple util methus in `src/Util.hs` that can help you analyze the ma
 Please read through the usage section to get a better understanding of how the user sees the application.
 
 Use `stack ghci` to run gchi with stack.
+
+Use `stack test` to run all tests.
 
 * `Game.hs` takes care about client setup and the websocket loop for readinga nd sending messages.
 * `Handler.hs` takes care about calculating apropiate action to each incomming message in the game loop.
